@@ -23,6 +23,18 @@ serial_init
                 RTS
 
 
+serial_read
+                ; Wait until RDRF is set
+                LDAA            reg_TRCSR2
+                ANDA            #%10000000
+                BEQ             serial_read
+
+                ; Should automatically RDRF flag
+                LDAB            reg_RDR
+                CLRA
+
+                RTS
+
 serial_send
                 ; Wait until TX register is empty
                 ; Waiting before sending means next byte can become ready while

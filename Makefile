@@ -2,7 +2,8 @@ all: build
 
 TARGETS=\
 	hellorld \
-	hellorld_serial \
+	display_proxy \
+	hellorld_serial
 
 obj/%.bin obj/%.lst obj/%.sym: src/%.asm FORCE
 	mkdir -p $(@D)
@@ -19,6 +20,9 @@ flash: obj/hellorld.bin FORCE
 	minipro -p AT28C64B -w $<
 
 flash-serial: obj/hellorld_serial.bin FORCE
+	minipro -p AT28C64B -w $<
+
+flash-proxy: obj/display_proxy.bin FORCE
 	minipro -p AT28C64B -w $<
 
 FORCE:

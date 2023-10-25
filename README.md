@@ -82,3 +82,9 @@ protocol without documentation.
 
 Progress is made for reverse engineering the protocol, but still work in
 progress.
+
+There is a tool `src/display_proxy.asm` that can be used together with
+`control_disp.py` to control the display.
+
+Some command structure can be found in:
+[Display documentation](docs/display.md)
