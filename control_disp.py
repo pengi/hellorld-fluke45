@@ -171,14 +171,13 @@ def hellorld():
     # l
     letter(6, 5, False)
     # o
-    digit(4, 0, False) 
+    segment(4, 2, True, False)
+    segment(4, 3, True, False)
+    segment(4, 4, True, False)
+    segment(4, 6, True, False)
     # r
-    segment(3, 0, True, False)
-    segment(3, 1, True, False)
     segment(3, 4, True, False)
-    segment(3, 5, True, False)
     segment(3, 6, True, False)
-    segment(3, 8, True, False)
     # l
     letter(2, 5, False)
     # d
@@ -187,9 +186,6 @@ def hellorld():
     segment(1, 3, True, False)
     segment(1, 4, True, False)
     segment(1, 6, True, False)
-    # !
-    segment(0, 1, True, False)
-    segment(0, 8, True, False)
 
 
 # Do a simple routine for testing

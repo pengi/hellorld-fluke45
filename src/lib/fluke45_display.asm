@@ -1,4 +1,131 @@
 ; ===================================================================
+; Display - clear screen
+; ===================================================================
+
+disp_clear_screen
+                LDX     #$A8
+                PSHX
+                JSR     disp_send8
+                PULX
+                RTS
+
+; ===================================================================
+; Display - clear digit
+; ===================================================================
+
+; $02,X - 8 bits - pos
+disp_clear_digit
+                TSX
+                LDAB    $02,X
+                ORAB    #$B0
+                PSHB
+                CLRA
+                PSHA
+                JSR     disp_send8
+                PULX
+                RTS
+
+; ===================================================================
+; Display - set digit/letter/segment
+; ===================================================================
+
+; Note that the arguments to these functions are passed directly forward to the
+; disp_set_grid function, and is referred to from within that function instead,
+; reading across one stack frame
+
+; Arguments:
+; $03,X - 8 bits - pos
+; $02,X - 8 bits - value
+
+disp_set_digit
+                LDX     #$9802
+                PSHX
+                JSR     disp_set_grid
+                PULX
+                RTS
+
+; Arguments:
+; $03,X - 8 bits - pos
+; $02,X - 8 bits - value
+
+disp_set_letter
+                LDX     #$9803
+                PSHX
+                JSR     disp_set_grid
+                PULX
+                RTS
+
+; Arguments:
+; $03,X - 8 bits - pos
+; $02,X - 8 bits - segment
+
+disp_set_segment
+                LDX     #$8803
+                PSHX
+                JSR     disp_set_grid
+                PULX
+                RTS
+
+; ===================================================================
+; Display - set grid
+; ===================================================================
+
+; send a command to set grid
+; This is based upon the function from set a segment from fluke 45 firmware, but
+; rewritten accept other commands instead
+
+; Arguments:
+; $09,X - 8 bits - pos
+; $08,X - 8 bits - value
+;                  space for return address of calling function
+; $05,X - 8 bits - flags
+; $04,X - 8 bits - prefix
+
+; Local variables
+; $00,X - 8 bits - temporary
+
+disp_set_grid   PSHX
+
+                TSX                                     ; - disp_send8(prefix | (pos >> 1))
+                LDAB    $09,X
+                CLRA
+                LSRD
+                ORAB    $04,X                           ; Patch: Takes this as argument
+                CLRA
+                PSHB
+                PSHA
+                JSR     disp_send8
+                PULX
+
+                TSX                                     ; - disp_send8(((pos << 6) & $40) | value << 2 | flags)
+                LDAB    $08,X
+                CLRA
+                ASLD
+                ASLD
+                STAB    $00,X
+
+                LDAB    $09,X
+                CLRA
+                ASLD
+                ASLD
+                ASLD
+                ASLD
+                ASLD
+                ASLD
+                ANDB    #$40
+                ORAB    $00,X
+
+                ORAB    $05,X
+                CLRA
+                PSHB
+                PSHA
+                JSR     disp_send8
+                PULX
+
+                PULX                                    ; - return
+                RTS
+
+; ===================================================================
 ; Init display
 ; ===================================================================
 
