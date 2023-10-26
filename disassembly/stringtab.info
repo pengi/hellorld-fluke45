@@ -1,0 +1,21 @@
+
+label CA78 str_CRLF
+label CA7B str_LF
+label CA7D str_semicolon
+label CA7F str_gt_eq_crlf
+label CA84 str_q_ge_crlf
+label CA89 str_exl_ge_crlf
+label CA7D str_semicolon
+label CA8E str_comma
+label CA90 str_comma_space
+
+data CA78-CA7B
+data CA7B-CA7D
+data CA7D-CA7F
+data CA7F-CA84
+data CA84-CA89
+data CA89-CA7D
+data CA7D-CA8E
+data CA8E-CA90
+data CA90-CA92
+

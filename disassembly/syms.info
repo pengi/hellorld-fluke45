@@ -1,0 +1,1004 @@
+file fluke_45-4504_1.7_857797.bin
+option 6301
+option showzero
+option noconv
+
+unused 0000-3fff
+
+################################################################################
+# REGS 0000 - 0027
+################################################################################
+
+
+label 0000 R_P1DDR
+label 0001 R_P2DDR
+label 0002 R_PORT1
+label 0003 R_PORT2
+label 0004 R_P3DDR
+label 0005 R_P4DDR
+label 0006 R_PORT3
+label 0007 R_PORT4
+label 0008 R_TCSR1
+label 0009 R_FRCH
+label 000a R_FRCL
+label 000b R_OCR1H
+label 000c R_OCR1L
+label 000d R_ICRH
+label 000e R_ICRL
+label 000f R_TCSR2
+label 0010 R_RMCR
+label 0011 R_TRCSR1
+label 0012 R_RDR
+label 0013 R_TDR
+label 0014 R_RP5CR
+label 0015 R_PORT5
+label 0016 R_P6DDR
+label 0017 R_PORT6
+label 0018 R_PORT7
+label 0019 R_OCR2H
+label 001a R_OCR2L
+label 001b R_TCSR3
+label 001c R_TCONR
+label 001d R_T2CNT
+label 001e R_TRCSR2
+label 001f R_TSTREG
+label 0020 R_P5DDR
+label 0021 R_P6CSR
+
+label 013f stack_top
+
+# $02 = ready
+label 00f3 v_disp_state
+
+label 00DB d_status
+label 00DC com_selected
+
+################################################################################
+# RAM 2000 - 3FFF
+################################################################################
+
+label 2000 var_unk_1 # 8 bit
+label 2005 var_unk_2 # 8 bit
+
+################################################################################
+# ROM 4000 - FFFF
+################################################################################
+
+comment 404B
+comment 404B ===================================================================
+comment 404B main()
+comment 404B ===================================================================
+comment 404B
+comment 404B Local variables
+comment 404B    $00,X - x
+comment 404B
+
+label 404B main
+label 4077 main_1
+label 4081 main_2
+label 4082 main_3
+label 4099 main_4
+label 409A main_5
+
+comment 404C - RP5CR = $60
+comment 4050 - PORT6 = $00
+comment 4053 - P6DDR = $B2
+comment 4057 - P5DDR = $7C
+comment 405B - PORT5 = $7C
+comment 405F - PORT5 = $FB
+comment 4063 - var_unk_1 = init_a()
+comment 4069 - init_com()
+comment 406C - disp_init()
+comment 406F - if(v_disp_state == 0) {
+comment 4074 -     PORT5 &= $BF // clear %01000000
+comment 4077 - }
+comment 4077 - if(v_disp_state == 1) {
+comment 407D -     B = 1
+comment 4081 - } else {
+comment 4081 -     B = 0
+comment 4082 - }
+comment 4082 - var_unk_1 = B
+comment 4088
+
+#comment 5532
+#comment 5532 ===================================================================
+#comment 5532
+
+comment 44A5
+comment 44A5 ===================================================================
+comment 44A5 init_a()
+comment 44A5 ===================================================================
+comment 44A5
+comment 44A5 Local variables
+comment 44A5    $02,X - x
+comment 44A5
+
+label 44A5 init_a
+label 44CA init_a_1
+label 44ED init_a_2
+
+comment 44F4
+comment 44F4 ===================================================================
+comment 44F4 Check ROM
+comment 44F4 ===================================================================
+comment 44F4
+comment 44F4 Local variables
+comment 44F4    $00,X -  8 bits - x
+comment 44F4    $01,X - 16 bits - y
+comment 44F4
+
+label 44F4 init_ckrom
+label 44FF init_ckrom_1
+label 4525 init_ckrom_2
+label 4528 init_ckrom_exit
+
+comment 44F6 x = 0
+comment 44FA y = $3fff
+comment 44FF do {
+comment 44FF     y++
+comment 4507     x += y[] 
+comment 450F } while(y < $ffff)
+comment 4517 if(x == $ff) {
+comment 451E     PORT5 &= $F7 // clear %0000 1000
+comment 4521     return 0
+comment 4525 }
+comment 4525 return 1
+
+comment 452B
+comment 452B ===================================================================
+comment 452B
+
+hex 54B0-5531
+comment 5532
+comment 5532 ===================================================================
+comment 5532 String table
+comment 5532 ===================================================================
+comment 5532
+hex 5532-55b3
+
+comment 55B4
+comment 55B4 ===================================================================
+comment 55B4 Init display
+comment 55B4 ===================================================================
+comment 55B4
+comment 55B4
+comment 55B4 Arguments:
+comment 55B4
+comment 55B4 Local variables
+comment 55B4    $00,X - status
+comment 55B4    $01,X - i
+comment 55B4
+
+label 55B4 disp_init
+
+label 55CD disp_init_1
+label 55DA disp_init_2
+label 55E2 disp_init_3
+label 560D disp_init_4
+label 5617 disp_init_5
+label 561C disp_init_6
+label 562E disp_init_7
+label 564C disp_init_8
+
+comment 55B5 - v_disp_state = 0;
+comment 55B8 - status = disp_send_raw(0, $c8);
+comment 55C6 - if(status == $01) {
+comment 55CA -     return;
+comment 55CD - }
+comment 55CD - if(status == $55) { // self test fail
+comment 55D3 -     v_disp_state = 1;
+comment 55D7 -     return;
+comment 55DA - }
+comment 55DA - v_disp_state = 2;
+comment 55DE - for(i=0; i<20; i++) {
+comment 55E9 -     if(status == $01)
+comment 55E9 -         break
+comment 55EF -     status = disp_send_raw(1, $ff)
+comment 55FF -     if(get_rx() != 0) {
+comment 5605 -         delay_ms(1)
+comment 560D -     }
+comment 560D -     if(get_rx() != 0) {
+comment 5613 -         status = $00
+comment 5617 -     }
+comment 5618 - // for loop
+comment 561C - }
+comment 561C - if(0 != disp_send_raw(1, $e0)) {
+comment 562C -     return;
+comment 562E - }
+comment 562E - while(get_rx() == 1) {}
+comment 5634 - disp_send_raw(0, $c8)
+comment 5640 - if(status == $01) {
+comment 5647 -     v_disp_state = 0
+comment 564A -     return;
+comment 564C - }
+comment 564D - if(status == $55) { // self test fail
+comment 5653 -     v_disp_state = 1
+comment 5657 - }
+
+label 5657 set_decimal_pos
+
+comment 5659
+comment 5659 ===================================================================
+comment 5659
+comment 5659 ===================================================================
+comment 5659
+
+label 5D06 disp_set_decimal_dot
+
+comment 5700
+comment 5700 ===================================================================
+comment 5700 Display Text ???
+comment 5700 ===================================================================
+comment 5700
+
+label 5700 display_text
+label 5981 display_text_exit
+
+comment 5700 allocate $17 bytes on stack
+comment 5707
+
+comment 5981
+comment 5981 free $17 bytes from stack
+
+comment 5989
+comment 5989 ===================================================================
+comment 5989
+
+comment 5EFA
+comment 5EFA ===================================================================
+comment 5EFA
+comment 5EFA ===================================================================
+comment 5EFA
+
+label 5EFA disp_it_seg
+label 5EFF disp_it_seg_1
+label 5F2A disp_it_seg_2
+
+comment 5EFB - for(i=0; i<5; i++) {
+comment 5F06 -     disp_send8($B0 | i)
+comment 5F25 - } // end for
+
+comment 5F2F
+comment 5F2F ===================================================================
+comment 5F2F
+
+comment 5FF1 
+comment 5FF1 ; ===================================================================
+comment 5FF1 ; Display - frame C from pointer
+comment 5FF1 ; ===================================================================
+comment 5FF1 
+comment 5FF1 Arguments:
+comment 5FF1    $04,X -  8 bits - arg
+comment 5FF1    $02,X - 16 bits - ptr
+comment 5FF1 
+
+label 5FF1 disp_C_ptr
+
+comment 5FF1 disp_C(arg, ptr[L], ptr[H])
+
+comment 5FF2 X = frame
+comment 5FF7
+comment 5FF8 X = frame-2
+comment 5FFF
+comment 6000 X = frame-4
+comment 6007
+
+
+
+comment 600D
+comment 600D ===================================================================
+comment 600D Display - set segment
+comment 600D ===================================================================
+comment 600D
+comment 600D Arguments:
+comment 600D    $09,X - 8 bits - brightness
+comment 600D    $07,X - 8 bits - seg
+comment 600D    $05,X - 8 bits - pos
+comment 600D
+comment 600D Local variables
+comment 600D    $00,X - 8 bits - var1
+comment 600D
+
+label 600D disp_set_seg
+
+comment 600E - disp_send8($88 | (pos >> 1))
+comment 601C - disp_send8(((pos << 6) & $40) | seg << 2 | brightness)
+comment 601C - seg << 2
+comment 6024 - (pos << 6) & $40
+comment 6031 - brightness
+comment 603B - return
+
+comment 566D disp_set_seg(  3,$0E,arg)
+comment 572B disp_set_seg(  0,argL,argH)
+comment 57A5 disp_set_seg(arg,argL,argH)
+comment 59E4 disp_set_seg(  0,$07,arg)
+comment 5A03 disp_set_seg(  0,$04,arg)
+comment 5A25 disp_set_seg(  0,$06,arg)
+comment 5A4B disp_set_seg(  0,$07,arg)
+comment 5AE0 disp_set_seg(arg,$08,arg)
+comment 5AF8 disp_set_seg(  0,$08,arg)
+comment 5B35 disp_set_seg(  0,$07,arg)
+comment 5B57 disp_set_seg(  0,$08,arg)
+
+comment 5C27 disp_set_seg(arg,$09,  5)
+comment 5C45 disp_set_seg(arg,$0A,  7)
+comment 5C4B disp_set_seg(  0,$0A,  7)
+comment 5C62 disp_set_seg(arg,$0A,  8)
+comment 5C68 disp_set_seg(  0,$0A,  8)
+comment 5C80 disp_set_seg(arg,$0B,  8)
+comment 5C86 disp_set_seg(  0,$0B,  8)
+comment 5C9E disp_set_seg(arg,$0B,  7)
+comment 5CBF disp_set_seg(arg,$09,  5)
+comment 5CD5 disp_set_seg(  0,$0B,  7)
+comment 5CEC disp_set_seg(arg,$0B,  6)
+comment 5CF2 disp_set_seg(  0,$0B,  6)
+
+comment 5D08 disp_set_seg(arg,$07,some func) -- decimal dot
+
+comment 5DD3 disp_set_seg(  3,$0B,  5)
+comment 5DD8 disp_set_seg(  0,$0B,  5)
+
+comment 5E5F disp_set_seg(arg,$0C, 10)
+comment 5E73 disp_set_seg(arg,$0B, 10)
+comment 5E8D disp_set_seg(  2,$0B, 10)
+
+comment 5EA8 disp_set_seg(  3,$0D,  4)
+
+comment 5EC4 disp_set_seg(  3,$0A,  9)
+comment 5EC9 disp_set_seg(  0,$0A,  9)
+
+comment 5EE2 disp_set_seg(  3,$0D, 10)
+comment 5EE7 disp_set_seg(  0,$0D, 10)
+
+comment 5F11 disp_set_seg(  3,$0E,  i)
+comment 5F3B disp_set_seg(  3,$06,arg)
+
+comment 6066 disp_set_seg(  3,$0E,pos)
+comment 654B disp_set_seg(  0,$0A,  9)
+comment 655E disp_set_seg(  2,$0A,  9)
+comment 6615 disp_set_seg(  0,$0A,  9)
+comment 677A disp_set_seg(  0,$0A, 10)
+comment 67EA disp_set_seg(  2,$0A, 10)
+comment 67EF disp_set_seg(  0,$0A, 10)
+comment 684C disp_set_seg(  0,$0A, 10)
+comment 6870 disp_set_seg(  2,$0A, 10)
+comment 68F5 disp_set_seg(  2,$0A,  9)
+comment 6968 disp_set_seg(  2,$0B,  7)
+comment 697A disp_set_seg(  2,$03,  5)
+comment 6999 disp_set_seg(  2,$0A,  7)
+comment 69E9 disp_set_seg(  2,$0B,  7)
+comment 6A22 disp_set_seg(  0,$0A,  A)
+comment 6A8D disp_set_seg(  2,$0B,  6)
+comment 6AAD disp_set_seg(  2,$09,  5)
+comment 6AB2 disp_set_seg(  0,$09,  5)
+comment EC34 disp_set_seg(arg,$00,  5)
+
+comment 603C
+comment 603C ===================================================================
+comment 603C Display - digit or letter
+comment 603C ===================================================================
+comment 603C
+comment 603C Arguments:
+comment 603C    $05,X - 8 bits - arg1
+comment 603C    $03,X - 8 bits - pos
+comment 603C
+
+label 603C disp_digit
+label 6079 disp_digit_exit
+
+comment 603C disp_send8($98 | pos >> 1)
+comment 604A disp_send8((pos << 6) & $40 | arg1)
+comment 606F stack is offset 4
+
+comment 607A
+comment 607A ===================================================================
+comment 607A Display - Sent no-op / $C8
+comment 607A ===================================================================
+comment 607A
+
+label 607A disp_noop
+
+comment 6083
+comment 6083 ===================================================================
+comment 6083 BEEP
+comment 6083 ===================================================================
+comment 6083
+comment 6083 Beep packets follows:
+comment 6083
+comment 6083 %11000ttt %0ttttttt
+comment 6083
+
+comment 6083
+comment 6083 - disp_beep($3f)
+label 6083 disp_beep_mid
+comment 608B
+comment 608B - disp_beep($0f)
+label 608B disp_beep_short
+comment 6093
+comment 6093 - disp_beep($7f)
+label 6093 disp_beep_long
+comment 609B
+
+comment 609B
+comment 609B ===================================================================
+comment 609B BEEP - arbitrary length
+comment 609B ===================================================================
+comment 609B
+comment 609B Send packets of 13 bits, packed in two bytes as:
+comment 609B %11xxxxxx %0xxxxxxx
+comment 609B
+comment 609B Arguments:
+comment 609B    $02,X - 16 bits - data - up to $3FFF is allowed
+comment 609B
+
+label 609B disp_beep
+
+comment 609B - disp_send8($c0 | (data >> 7))
+comment 60AD - disp_send8($7f & data)
+
+comment 89B7 disp_beep($03FF) - BEEP long (several seconds)
+comment 89CC disp_beep($0000) - BEEP none
+comment 8BA4 disp_beep($003F) - BEEP mid
+
+comment 60B9
+comment 60B9 ===================================================================
+comment 60B9 Display - Set segment, maybe?
+comment 60B9 ===================================================================
+comment 60B9
+comment 60B9 Seems to affect a segment, but isn't clear what it does
+comment 60B9
+comment 60B9 Arguments:
+comment 60B9    $0B,X - 8 bits - flag
+comment 60B9    $09,X - 8 bits - value
+comment 60B9    $07,X - 8 bits - pos
+comment 60B9
+comment 60B9 Local variables
+comment 60B9    $00,X - 8 bits - var1
+comment 60B9    $02,X - 8 bits - var2
+comment 60B9
+comment 60B9
+comment 60B9
+comment 60B9
+
+label 60B9 disp_set_seg_alt
+label 60D9 disp_set_seg_alt_1
+label 60DB disp_set_seg_alt_2
+
+comment 60BB - disp_send8((pos >> 1) | $a0)
+comment 60C8 - disp_send8(((pos << 6) & $40) | (value << 2) | !flag)
+comment 60D0 -
+comment 60DE -
+comment 60F3 - return
+
+comment 653A disp_set_seg_alt($00, $0A, $09) - frame: $a4 $69
+comment 6570 disp_set_seg_alt($03, $0A, $09) - frame: $a4 $68
+comment 6604 disp_set_seg_alt($00, $0A, $09) - frame: $a4 $69
+comment 6767 disp_set_seg_alt($03, $0A, $0A) - frame: $a5 $28
+comment 6763 disp_set_seg_alt($00, $0A, $0A) - frame: $a5 $29
+comment 67D5 disp_set_seg_alt($00, $0A, $0A) - frame: $a5 $29
+comment 6861 disp_set_seg_alt($03, $0A, $0A) - frame: $a5 $28
+comment 6907 disp_set_seg_alt($03, $0A, $09) - frame: $a4 $68
+
+comment 60F6
+comment 60F6 ===================================================================
+comment 60F6 Display - send 8 bits with retry
+comment 60F6 ===================================================================
+comment 60F6
+comment 60F6
+comment 60F6 Arguments:
+comment 60F6    $02,X - 16 bits - arg1
+
+label 60F6 disp_send8
+comment 60F7 v_disp_state = disp_send8_int(arg1)
+
+comment 6102
+comment 6102 ===================================================================
+comment 6102 Display - send 8 bits with retry - return status
+comment 6102 ===================================================================
+comment 6102
+comment 6102 Arguments:
+comment 6102    $08,X - 8 bits - arg1
+comment 6102
+comment 6102 Local variables
+comment 6102    $00,X - 8 bits - var2
+comment 6102    $02,X - 8 bits - status
+comment 6102
+comment 6102 Return:
+comment 6102    D = ...
+comment 6102
+
+label 6102 disp_send8_int
+
+label 6104 disp_send8_int_1
+label 6110 disp_send8_int_2
+label 6159 disp_send8_int_3
+label 6176 disp_send8_int_4
+label 6180 disp_send8_int_5
+label 618C disp_send8_int_6
+label 6197 disp_send8_int_ret0
+label 6199 disp_send8_int_exit
+
+
+# Wait for (port_rx == 0 || v_disp_state == 2)
+comment 6104
+comment 6104 - do {
+comment 6104 -     if(port_rx == 0) {
+comment 6108 -         break;
+comment 610A -     }
+comment 610A - } while(v_disp_state != 2);
+comment 6110
+
+comment 6110 - status = disp_send_raw(1, arg1)
+comment 6122 - if(status != 1 && v_disp_state != 2) {
+comment 612C -     eeprom_read($3E, &status) // $3e = 62
+comment 613A -     var2++
+comment 613D -     eeprom_write($3E, &status) // $3e = 62
+comment 614B -     if(port_rx != 0) {
+comment 6151 -         delay_ms(1)
+comment 6159 -     }
+comment 6159 -     status = disp_send_raw(1, $ff)
+comment 6168 -     if(port_rx != 0) {
+comment 616E -         delay_ms(1)
+comment 6176 -     }
+comment 6176 -     if(port_rx != 0) {
+comment 617C -         status = 0
+comment 6180 -     }
+comment 6180 -     if(status == 1) {
+comment 6187 -         return 1
+comment 618C -     }
+comment 618C - }
+comment 618C
+comment 618C - if(v_disp_state == 2) {
+comment 6192 -     return 2
+comment 6197 - }
+comment 6197 - return 0
+
+comment 619C
+comment 619C ===================================================================
+comment 619C Display - send byte - raw
+comment 619C ===================================================================
+comment 619C
+comment 619C
+comment 619C Arguments:
+comment 619C    $09,X - full_byte
+comment 619C    $07,X - data_tx
+comment 619C
+comment 619C Local variables
+comment 619C    $02,X - data_rx
+comment 619C    $03,X - cnt
+comment 619C
+comment 619C Return:
+comment 619C    B = data_rx
+comment 619C
+
+label 619C disp_send_raw
+
+label 61A4 disp_send_raw_1
+label 61B5 disp_send_raw_2
+label 61BE disp_send_raw_3
+label 61C3 disp_send_raw_4
+label 61C9 disp_send_raw_5
+label 61E4 disp_send_raw_6
+label 61EE disp_send_raw_7
+
+comment 619E - data_rx = 0
+comment 61A2 - cnt = 0
+comment 61A2 - while(cnt >= 8) {
+comment 61AB -     if(data_rx == 1) {
+comment 61B1 -         if(full_byte != 0) {
+comment 61B3 -             break;
+comment 61B5 -         }
+comment 61B5 -     }
+comment 61B5 -     port_clock = low
+comment 61B8 -     if(data_tx & $80 != 0) {
+comment 61BE -         port_tx = high
+comment 61C1 -     }
+comment 61C3 -     else {
+comment 61BE -         port_tx = low
+comment 61C9 -     }
+comment 61C9 -     data_rx <<= 1
+comment 61CC -     data_rx |= port_rx ? 1 : 0
+comment 61DE -     data_tx <<= 1
+comment 61DA -     port_clock = high
+comment 61E0 -     cnt++
+comment 61E4 - }
+comment 61E4 - if(cnt < 8) {
+comment 61EB -     data_rx = 0
+comment 61EE - }
+comment 61EE - return data_rx
+
+
+comment 61F5
+comment 61F5 ===================================================================
+comment 61F5
+
+label 6295 const_frame_C
+word 6295-62AA
+
+comment C4CF
+comment C4CF ===================================================================
+comment C4CF Print null-terminated string to current com
+comment C4CF ===================================================================
+comment C4CF
+comment C4CF Arguments:
+comment C4CF    $02,X - 16 bits - ptr to string
+comment C4CF
+label C4CF puts_com
+
+comment C4ED
+comment C4ED ===================================================================
+comment C4ED
+
+comment C5BC
+comment C5BC ===================================================================
+comment C5BC Serial command table
+comment C5BC ===================================================================
+comment C5BC
+
+include cmdtab.info
+include stringtab.info
+
+comment C808
+comment C808 ===================================================================
+comment C808
+
+comment 6F1A
+comment 6F1A ===================================================================
+comment 6F1A EPROM read register
+comment 6F1A ===================================================================
+comment 6F1A
+comment 6F1A Arguments:
+comment 6F1A    $07,X - 16 bits - reg
+comment 6F1A    $05,X - 16 bits - ptr
+comment 6F1A
+comment 6F1A Local variables
+comment 6F1A    $00,X - 16 bits - data
+comment 6F1A    $02,X - 8 bits - i
+comment 6F1A
+
+# EPROM 93C46
+#
+# 16 bit organization
+#
+# 1 / CS / S - P67 / PORT6 $80 $7F
+# 2 / SK / C - P27 / PORT2 $80 $7F
+# 3 / DI / D - P64 / PORT6 $10 $EF
+# 4 / DO / Q - P63 / PORT6 $08 $F7
+#
+
+
+label 6F1A eeprom_read
+label 6F37 eeprom_read_1
+label 6F5C eeprom_read_2
+
+comment 6F1C - eeprom_tx_op(reg | $80, 1)
+comment 6F2D - CS = high
+comment 6F30 - i = 0
+comment 6F34 - data = 0
+comment 6F37 - while(i < 16) {
+comment 6F3E -     data <<= 1
+comment 6F43 -     SK = low
+comment 6F46 -     data |= Q
+comment 6F54 -     SK = high
+comment 6F57 -     i++
+comment 6F5A - }
+comment 6F5C - ptr[] = data
+comment 6F63 - CS = low
+comment 6F66 - return
+
+comment 6F69
+comment 6F69 ===================================================================
+comment 6F69 EEPROM write reg
+comment 6F69 ===================================================================
+comment 6F69
+comment 6F69
+comment 6F69 Arguments:
+comment 6F69    $08,X - 16 bits - reg
+comment 6F69    $06,X - 16 bits - ptr
+comment 6F69
+comment 6F69 Local variables
+comment 6F69    $00,X - 16 bits - data
+comment 6F69    $02,X - 16 bits - tmp_data
+comment 6F69
+comment 6F69 Return:
+comment 6F69     1 on failure, 0 on success
+comment 6F69
+
+# EPROM 93C46
+#
+# 16 bit organization
+#
+# 1 / CS / S - P67 / PORT6 $80 $7F
+# 2 / SK / C - P27 / PORT2 $80 $7F
+# 3 / DI / D - P64 / PORT6 $10 $EF
+# 4 / DO / Q - P63 / PORT6 $08 $F7
+#
+
+label 6F69 eeprom_write
+label 7004 eeprom_write_ret1
+label 7007 eeprom_write_exit
+
+comment 6F6B - eeprom_tx_op($30, 1)
+comment 6F78 - CS = low
+comment 6F7B - eeprom_tx_op($c0 | reg, 1)
+comment 6F8C - eeprom_wait_do()
+comment 6F8F - CS = high
+comment 6F92 - SK = high
+comment 6F95 - delay_fast()
+comment 6F92 - SK = low
+comment 6F8F - CS = low
+comment 6F9E - eeprom_tx_op($40 | reg, 1)
+comment 6FAF - eeprom_tx_op((ptr[] && 0xff00) >> 8, 0)
+comment 6FBF - eeprom_tx_op((ptr[] && 0x00ff) >> 0, 0)
+comment 6FCE - eeprom_wait_do()
+comment 6FD1 - CS = low
+comment 6FD4 - eeprom_tx_op($00, 1)
+comment 6FDF - CS = low
+comment 6FE2 - eeprom_read(reg, &tmp_data)
+lcomment 6FE9 orig SP+2
+comment 6FF2 - data = ptr[]
+comment 6FFA - if(data == tmp_data) {
+comment 7000 -     return 0
+comment 7004 - } else {
+comment 7004 -     return 1
+comment 7007 - }
+
+comment 700A
+comment 700A ===================================================================
+comment 700A
+
+comment 702D
+comment 702D ===================================================================
+comment 702D EEPROM send opcode
+comment 702D ===================================================================
+comment 702D
+comment 702D Arguments:
+comment 702D    $06,X - 8 bits - data
+comment 702D    $04,X - 8 bits - set_cs
+comment 702D
+comment 702D Local variables
+comment 702D    $00,X - 8 bits - i
+comment 702D
+
+# EPROM 93C46
+#
+# 16 bit organization
+#
+# 1 / CS / S - P67 / PORT6 $80 $7F
+# 2 / SK / C - P27 / PORT2 $80 $7F
+# 3 / DI / D - P64 / PORT6 $10 $EF
+# 4 / DO / Q - P63 / PORT6 $08 $F7
+#
+
+label 702D eeprom_tx_op
+label 7046 eeprom_tx_op_1
+label 704A eeprom_tx_op_2
+label 706D eeprom_tx_op_3
+
+comment 702E - if(arg1 != 0) {
+comment 7033 -     SK = low
+comment 7036 -     CS = high
+comment 7039 -     SK = low // delay probably
+comment 703C -     DI = high
+comment 703F -     delay_fast()
+comment 7041 -     SK = high
+comment 7044 -     delay_fast()
+comment 7046 - }
+comment 7046 - for(i=0; i<8; i++) {
+comment 7051 -     SK = low
+comment 7054 -     DI = (data & $80) != 0
+comment 7063 -     SK = high
+comment 7066 -     data <<= 1
+comment 7068 - }
+comment 706D - SK = low
+comment 7070 - return
+
+comment 7072
+comment 7072 ===================================================================
+comment 7072 EEPROM
+comment 7072 ===================================================================
+comment 7072
+
+label 7072 eeprom_wait_do
+label 707C eeprom_wait_do_1
+label 7084 eeprom_wait_do_exit
+
+comment 7072 CS = low
+comment 7078 CS = high
+comment 707C while(DO == 0) {}
+comment 7084 return
+
+comment 7085
+comment 7085 ===================================================================
+comment 7085 Delay fast
+comment 7085 ===================================================================
+comment 7085
+label 7085 delay_fast
+comment 7087 var = var | var
+comment 708F
+comment 708F ===================================================================
+comment 708F
+
+
+comment D6E0
+comment D6E0 ===================================================================
+comment D6E0 Command star IDN?
+comment D6E0 ===================================================================
+comment D6E0
+
+comment D752
+comment D752 ===================================================================
+comment D752
+
+comment D75E
+comment D75E ===================================================================
+comment D75E
+
+comment D767
+comment D767 ===================================================================
+comment D767
+
+label D8A2 str_IDN_FLUKE_45
+char D8A2-D8AD
+label D8AE str_IDN_comma
+char D8AE-D8B0
+
+comment D8B9
+comment D8B9 ===================================================================
+comment D8B9 dipsplay D718
+comment D8B9 ===================================================================
+comment D8B9
+label D8B9 init_com
+
+comment D8D2
+comment D8D2 ===================================================================
+comment D8D2
+
+label D8D2 init_p2
+
+comment D9F1
+comment D9F1 ===================================================================
+comment D9F1 Delay ms
+comment D9F1 ===================================================================
+comment D9F1
+comment D9F1 Arguments:
+comment D9F1    $07,X - ticks
+comment D9F1
+comment D9F1 Local variables
+comment D9F1    $00,X - 2 bytes - var1
+comment D9F1    $02,X - 2 bytes - var2
+comment D9F1
+comment D9F1
+comment D9F1 Wait for 922 * ticks iterations
+comment D9F1
+comment D9F1 With XTAL = 3.6864MHz, divided by 4 to a system clock at 0.9216MHz
+comment D9F1 
+comment D9F1 one tick is therefore 922 / 0.9216 us = 1ms
+
+
+label D9F1 delay_ms
+label DA0D delay_ms_1
+label DA13 delay_ms_2
+label DA28 delay_ms_3
+label DA33 delay_ms_4
+label DA3A delay_ms_5
+label DA41 delay_ms_exit
+
+comment D9F3
+comment D9F3 - if(ticks <= $47) {
+comment D9FA -     var2 = multi_long(ticks, $039A)
+comment DA0B - }
+comment DA0D - else {
+comment DA0D -     var2 = $FFB6
+comment DA13 - }
+comment DA13
+comment DA13 - var1 = R_FRC
+comment DA18 - var2 += var1 - $0064
+comment DA1F - if(var2 > $ffb6) {
+comment DA24 -     var2 = 0
+comment DA28 - }
+comment DA28
+comment DA28 - if(ticks == 0) {
+comment DA2B -     return
+comment DA2D - }
+comment DA2D
+comment DA2D - if(var2 < var1) {
+comment DA33 -     while( var1 > R_FRC ) {}
+comment DA3A - }
+comment DA3A - while( var2 < R_FRC ) {}
+
+
+comment da44
+comment da44 ===================================================================
+comment da44
+
+comment fc5f
+comment fc5f ===================================================================
+comment fc5f Func fc5f
+comment fc5f ===================================================================
+comment fc5f
+
+label fc5f fnc_fc5f
+
+comment fcd4
+comment fcd4 ===================================================================
+comment fcd4 Func fcd4
+comment fcd4 ===================================================================
+comment fcd4
+
+label fcd4 fnc_fcd4
+
+comment fdca
+comment fdca ===================================================================
+comment fdca Func fdca
+comment fdca ===================================================================
+comment fdca
+
+label fdca fnc_fdca
+
+comment fe21
+comment fe21 ===================================================================
+comment fe21 Func fe21
+comment fe21 ===================================================================
+comment fe21
+
+label fe21 fnc_fe21
+
+comment fe4f
+comment fe4f ===================================================================
+comment fe4f Func fe4f
+comment fe4f ===================================================================
+comment fe4f
+
+label fe4f fnc_fe4f
+
+comment FEA4
+comment FEA4 ===================================================================
+comment FEA4 Multiply (signed? 16 bit * 8 bit?)
+comment FEA4 ===================================================================
+comment FEA4
+comment FEA4 Arguments:
+comment FEA4    $07,X - a1
+comment FEA4    $08,X - a1
+comment FEA4    $09,X - a2
+comment FEA4
+comment FEA4 Local variables
+comment FEA4    $00,X - var1
+comment FEA4    $01,X - var1
+comment FEA4    $02,X - var1
+comment FEA4
+
+label FEA4 multi_long
+
+comment fee9
+comment fee9 ===================================================================
+comment fee9 Func fee9
+comment fee9 ===================================================================
+comment fee9
+
+label fee9 fnc_fee9
+
+comment ff17
+comment ff17 ===================================================================
+comment ff17 Default handler
+comment ff17 ===================================================================
+comment ff17
+
+comment ff1a
+comment ff1a ===================================================================
+comment ff1a Divide by 0 handler
+comment ff1a ===================================================================
+comment ff1a
+
+comment ff32
+comment ff32 ===================================================================
+comment ff32 Divide by 0 handler
+comment ff32 ===================================================================
+comment ff32
+
+comment ff3e
+comment ff3e ===================================================================
+comment ff3e
+
+hex ff3f-ffef
+comment fff0 isr_vector

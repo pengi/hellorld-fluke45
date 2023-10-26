@@ -1,0 +1,371 @@
+label C5BC cmdtab
+word C5BC-C807
+
+label 42BF cb_RESTORE
+label 481F cb_HOLD
+label 4E70 cb_meas_type
+label 50A8 cb_HOLDCLR_MMCLR_RELCLR
+label 548E cb_SAVE
+label C5B6 cb_AUTARCH
+label CA93 cb_CLR2
+label CA9F cb_CONT
+label CAAB cb_DIODE
+label CAB7 cb_COMP_COMPCLR
+label CAE5 cb_COMPHI
+label CAED cb_COMPLO
+label CB29 cb_COMP_q
+label CB45 cb_COMPHI_q
+label CB54 cb_COMPLO_q
+label CB63 cb_RATE
+label CBB5 cb_RADE_q
+label CBEF cb_FUNCn_q
+label CC23 cb_MOD_q
+label CC2D cb_HOLDTHRESH
+label CC48 cb_HOLDTHRESH_q
+label CC56 cb_MIN_MAX
+label CCF4 cb_MINSET
+label CD0B cb_MAXSET
+label CD79 cb_REL
+label CDC4 cb_RELSET
+label CDEA cb_RELSET_q
+label CE04 cb_DB
+label CE33 cb_DBPOWER
+label CE76 cb_DBCLR
+label CE80 cb_DBREF
+label CEB1 cb_DBREF_q
+label CEBF cb_AUTO_FIXED
+label CF43 cb_AUTO_q
+label CF67 cb_RANGE
+label CF8A cb_RANGEn
+label CFD0 cb_TRIGGER
+label D019 cb_TRIGGER_q
+label D026 cb_VAL
+label D077 cb_VAL1_q
+label D093 cb_VAL2_q
+label D0B9 cb_MEAS
+label D0CE cb_MEAS1_q
+label D0D8 cb_MEAS2_q
+label D0EC cb_BUTTON_q
+label D0F6 cb_EEREG_q
+label D125 cb_FORMAT
+label D13E cb_FORMAT_q
+label D149 cb_SERIAL
+label D274 cb_SERIAL_q
+label D31E cb_REMS_RWLS_LOCS_LWLS
+label D55F cb_M_G
+label D57F cb_M_G_q
+label D64C cb_CLS
+label D65C cb_s_ESE
+label D664 cb_s_ESE_q
+label D66F cb_s_ESR_q
+label D681 cb_s_SRE
+label D689 cb_s_SRE_q
+label D694 cb_s_STB_q
+label D6E0 cb_s_IDN_q
+label D752 cb_s_OPC
+label D75E cb_s_OPC_q
+label D767 cb_s_RST
+label D7CE cb_s_TRG
+label D7E0 cb_s_TST_q
+label D899 cb_s_WAI
+label DCD0 cb_CAL
+label DD15 cb_CALREF
+label DE59 cb_CALREF_q
+label DE74 cb_CALSTEP_q
+label DE96 cb_CALCONST_q
+label DF64 cb_CALCLR
+
+label C81E str_VAL_q
+label C823 str_MEAS_q
+label C829 str_VAL1_q
+label C82F str_VAL2_q
+label C835 str_MEAS1_q
+label C83C str_MEAS2_q
+label C843 str_s_ESR_q
+label C849 str_s_STB_q
+label C84F str_FUNC1_q
+label C856 str_FUNC2_q
+label C85D str_AAC
+label C861 str_AAC2
+label C866 str_AACDC
+label C86C str_ADC
+label C870 str_ADC2
+label C875 str_CLR2
+label C87A str_CONT
+label C87F str_DIODE
+label C885 str_DIODE2
+label C88C str_FREQ
+label C891 str_FREQ2
+label C897 str_OHMS
+label C89C str_OHMS2
+label C8A2 str_RATE
+label C8A7 str_RATE_q
+label C8AD str_VAC
+label C8B1 str_VAC2
+label C8B6 str_VACDC
+label C8BC str_VDC
+label C8C0 str_VDC2
+label C8C5 str_AUTO
+label C8CA str_FIXED
+label C8D0 str_AUTO_q
+label C8D6 str_RANGE
+label C8DC str_RANGE1_q
+label C8E4 str_RANGE2_q
+label C8EC str_TRIGGER
+label C8F4 str_TRIGGER_q
+label C8FD str_BUTTON_q
+label C905 str_EEREG_q
+label C90C str_CAL
+label C910 str_CALSTEP_q
+label C919 str_CALREF
+label C920 str_CALREF_q
+label C928 str_CALCONST_q
+label C932 str_CALCLR
+label C939 str_COMP
+label C93E str_COMPLO
+label C945 str_COMPLO_q
+label C94D str_COMPHI
+label C954 str_COMPHI_q
+label C95C str_COMP_q
+label C962 str_COMPCLR
+label C96A str_DB
+label C96D str_DBPOWER
+label C975 str_DBCLR
+label C97B str_DBREF
+label C981 str_DBREF_q
+label C988 str_HOLD
+label C98D str_HOLDCLR
+label C995 str_HOLDTHRESH
+label C9A0 str_HOLDTHRESH_q
+label C9AC str_MIN
+label C9B0 str_MINSET
+label C9B7 str_MAX
+label C9BB str_MAXSET
+label C9C2 str_MMCLR
+label C9C8 str_REL
+label C9CC str_RELSET
+label C9D3 str_RELCLR
+label C9DA str_RELSET_q
+label C9E2 str_MOD_q
+label C9E7 str_SERIAL
+label C9EE str_SERIAL_q
+label C9F6 str_FORMAT
+label C9FD str_FORMAT_q
+label CA05 str_SAVE
+label CA0A str_RESTORE
+label CA12 str_s_CLS
+label CA17 str_s_ESE
+label CA1C str_s_ESE_q
+label CA22 str_s_SRE
+label CA27 str_s_SRE_q
+label CA2D str_s_IDN_q
+label CA33 str_s_OPC
+label CA38 str_s_OPC_q
+label CA3E str_s_RST
+label CA43 str_s_TRG
+label CA48 str_s_TST_q
+label CA4E str_s_WAI
+label CA53 str_REMS
+label CA58 str_RWLS
+label CA5D str_LOCS
+label CA62 str_LWLS
+label CA67 str_AUTARCH
+label CA6F str_M_G
+label CA73 str_M_G_q
+
+data C81E-C823
+data C823-C829
+data C829-C82F
+data C82F-C835
+data C835-C83C
+data C83C-C843
+data C843-C849
+data C849-C84F
+data C84F-C856
+data C856-C85D
+data C85D-C861
+data C861-C866
+data C866-C86C
+data C86C-C870
+data C870-C875
+data C875-C87A
+data C87A-C87F
+data C87F-C885
+data C885-C88C
+data C88C-C891
+data C891-C897
+data C897-C89C
+data C89C-C8A2
+data C8A2-C8A7
+data C8A7-C8AD
+data C8AD-C8B1
+data C8B1-C8B6
+data C8B6-C8BC
+data C8BC-C8C0
+data C8C0-C8C5
+data C8C5-C8CA
+data C8CA-C8D0
+data C8D0-C8D6
+data C8D6-C8DC
+data C8DC-C8E4
+data C8E4-C8EC
+data C8EC-C8F4
+data C8F4-C8FD
+data C8FD-C905
+data C905-C90C
+data C90C-C910
+data C910-C919
+data C919-C920
+data C920-C928
+data C928-C932
+data C932-C939
+data C939-C93E
+data C93E-C945
+data C945-C94D
+data C94D-C954
+data C954-C95C
+data C95C-C962
+data C962-C96A
+data C96A-C96D
+data C96D-C975
+data C975-C97B
+data C97B-C981
+data C981-C988
+data C988-C98D
+data C98D-C995
+data C995-C9A0
+data C9A0-C9AC
+data C9AC-C9B0
+data C9B0-C9B7
+data C9B7-C9BB
+data C9BB-C9C2
+data C9C2-C9C8
+data C9C8-C9CC
+data C9CC-C9D3
+data C9D3-C9DA
+data C9DA-C9E2
+data C9E2-C9E7
+data C9E7-C9EE
+data C9EE-C9F6
+data C9F6-C9FD
+data C9FD-CA05
+data CA05-CA0A
+data CA0A-CA12
+data CA12-CA17
+data CA17-CA1C
+data CA1C-CA22
+data CA22-CA27
+data CA27-CA2D
+data CA2D-CA33
+data CA33-CA38
+data CA38-CA3E
+data CA3E-CA43
+data CA43-CA48
+data CA48-CA4E
+data CA4E-CA53
+data CA53-CA58
+data CA58-CA5D
+data CA5D-CA62
+data CA62-CA67
+data CA67-CA6F
+data CA6F-CA73
+data CA73-CA78
+
+
+# $C81E $D026 $8400
+# $C823 $D0B9 $8000
+# $C829 $D077 $8400
+# $C82F $D093 $8000
+# $C835 $D0CE $8000
+# $C83C $D0D8 $8000
+# $C843 $D66F $8400
+# $C849 $D694 $8400
+# $C84F $CBEF $4000
+# $C856 $CBEF $4001
+# $C85D $4E70 $4042
+# $C861 $4E70 $40C2
+# $C866 $4E70 $4046
+# $C86C $4E70 $4044
+# $C870 $4E70 $40C4
+# $C875 $CA93 $8000
+# $C87A $CA9F $8000
+# $C87F $CAAB $8000
+# $C885 $4E70 $40E8
+# $C88C $4E70 $4061
+# $C891 $4E70 $40E1
+# $C897 $4E70 $4062
+# $C89C $4E70 $40E2
+# $C8A2 $CB63 $2000
+# $C8A7 $CBB5 $8000
+# $C8AD $4E70 $4048
+# $C8B1 $4E70 $40C8
+# $C8B6 $4E70 $4058
+# $C8BC $4E70 $4050
+# $C8C0 $4E70 $40D0
+# $C8C5 $CEBF $4000
+# $C8CA $CEBF $4001
+# $C8D0 $CF43 $8000
+# $C8D6 $CF67 $1000
+# $C8DC $CF8A $4000
+# $C8E4 $CF8A $4001
+# $C8EC $CFD0 $1000
+# $C8F4 $D019 $8000
+# $C8FD $D0EC $8400
+# $C905 $D0F6 $1400
+# $C90C $DCD0 $1400
+# $C910 $DE74 $8400
+# $C919 $DD15 $1400
+# $C920 $DE59 $8400
+# $C928 $DE96 $1400
+# $C932 $DF64 $8400
+# $C939 $CAB7 $4001
+# $C93E $CAED $1000
+# $C945 $CB54 $8000
+# $C94D $CAE5 $1000
+# $C954 $CB45 $8000
+# $C95C $CB29 $8000
+# $C962 $CAB7 $4000
+# $C96A $CE04 $8000
+# $C96D $CE33 $8000
+# $C975 $CE76 $8000
+# $C97B $CE80 $1000
+# $C981 $CEB1 $8000
+# $C988 $481F $4074
+# $C98D $50A8 $4074
+# $C995 $CC2D $1000
+# $C9A0 $CC48 $8000
+# $C9AC $CC56 $4001
+# $C9B0 $CCF4 $1000
+# $C9B7 $CC56 $4002
+# $C9BB $CD0B $1000
+# $C9C2 $50A8 $4071
+# $C9C8 $CD79 $8000
+# $C9CC $CDC4 $1000
+# $C9D3 $50A8 $4001
+# $C9DA $CDEA $8000
+# $C9E2 $CC23 $8000
+# $C9E7 $D149 $2400
+# $C9EE $D274 $8400
+# $C9F6 $D125 $1400
+# $C9FD $D13E $8400
+# $CA05 $548E $8200
+# $CA0A $42BF $8200
+# $CA12 $D64C $8400
+# $CA17 $D65C $1400
+# $CA1C $D664 $8400
+# $CA22 $D681 $1400
+# $CA27 $D689 $8400
+# $CA2D $D6E0 $8400
+# $CA33 $D752 $8400
+# $CA38 $D75E $8400
+# $CA3E $D767 $8400
+# $CA43 $D7CE $8400
+# $CA48 $D7E0 $8000
+# $CA4E $D899 $8400
+# $CA53 $D31E $4480
+# $CA58 $D31E $44C0
+# $CA5D $D31E $4400
+# $CA62 $D31E $4440
+# $CA67 $C5B6 $8400
+# $CA6F $D55F $5438
+# $CA73 $D57F $4438
