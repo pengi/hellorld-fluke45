@@ -4,12 +4,21 @@ Hellorld! on a Fluke 45
 Hellorld! challenge is in short to get an old computer, or other equipment, to
 print out "Hellorld!" using assembly, or print it in with hex.
 
-https://youtu.be/gQ6mwbTGXGQ
-
 This is an attempt to get it running on a Fluke 45 multimeter, by replacing the
 ROM
 
-![Fluke 45](img/fluke45.jpg)
+[![Hellorld scroller](img/hello.jpg)](https://youtu.be/mPH0PppvqbA)
+[Video available on youtube](https://youtu.be/mPH0PppvqbA)
+
+Hellorld! from Usagi Electric
+-----------------------------
+
+To see the original story about "Hellorld!", tune in to
+[Usagi Electrics](https://www.youtube.com/@UsagiElectric) original
+[Hellorld! video](https://youtu.be/gQ6mwbTGXGQ)
+
+For other Hellorld! implementations, check the
+[Hellorld! wiki](https://github.com/Nakazoto/Hellorld/wiki)
 
 Architecture
 ------------
@@ -59,6 +68,16 @@ work without adaptor too.
 
 ![Fluke 45](img/rom_board.jpg)
 
+Display Module
+--------------
+
+The display is controlled by a small CPU in the display unit, which communicate
+with the main CPU using an SPI-like bus, with a custom protocol without
+documentation publicly available.
+
+More information about the protocol is available from reverse engineering in the
+[Display documentation](docs/display.md)
+
 Hellorld Serial
 ---------------
 
@@ -74,17 +93,25 @@ Output can be seen on a serial emulator:
 Hellorld
 --------
 
-Goal is to get Hellorld written on the VFD display.
+Having hellorld printed out on serial is cool, and simpler. But goal is to print
+it out on the display.
 
-However, that display is controlled by a microcontroller in the display unit,
-which communicate with the main CPU using an SPI-like bus, with a custom
-protocol without documentation.
+the VFD display has 5 digits for main display, 5 smaller digits on a secondary
+display, and a couple of extra indicators. Most of the digits are 7 segments,
+where a few has an extra segment for a proper capital R.
 
-Progress is made for reverse engineering the protocol, but still work in
-progress.
+Therefore, it makes most sense to have a scrolling "hellorld" that fits within
+normal 7 segment letters.
 
-There is a tool `src/display_proxy.asm` that can be used together with
-`control_disp.py` to control the display.
+Result can be seen on top of this page
 
-Some command structure can be found in:
-[Display documentation](docs/display.md)
+It is fully running on a custom ROM, available in `src/hellorld.arm`
+
+Display Proxy
+-------------
+
+As help for reverse engineering, there is a tool `src/display_proxy.asm` that
+can be used together with `control_disp.py` to control the display.
+
+The tool receives data via serial port and unmodified passes the data over to
+the display module, for faster testing.
